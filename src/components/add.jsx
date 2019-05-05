@@ -1,33 +1,26 @@
 import React from "react";
 
-class Search extends React.Component {
-  // constructor
+class Add extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: ""
     };
-
-    //bind functions here
     this.handleChange = this.handleChange.bind(this);
-    this.submit = this.submit.bind(this);
+    this.add = this.add.bind(this);
   }
 
-  //methods
   handleChange(event) {
     this.setState({
       value: event.target.value
     });
   }
 
-  submit(event) {
+  add(event) {
     event.preventDefault();
-    this.props.handleSubmit(this.state.value);
+    this.props.handleAdd(this.state.value);
   }
 
-  // lifecycle
-
-  // render - req
   render() {
     return (
       <form>
@@ -36,10 +29,10 @@ class Search extends React.Component {
           value={this.state.value}
           onChange={this.handleChange}
         />
-        <input type="submit" value="Submit" onClick={this.submit} />
+        <input type="submit" value="Add" onClick={this.add} />
       </form>
     );
   }
 }
 
-export default Search;
+export default Add;

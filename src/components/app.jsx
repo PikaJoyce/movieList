@@ -3,6 +3,7 @@
 import React from "react";
 import MovieList from "./movieList.jsx";
 import Search from "./search.jsx";
+import Add from "./add.jsx";
 
 // this.props = {
 //   movies =[
@@ -24,10 +25,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ""
+      watched: [],
+      towatch: [],
+      movies: props.movies,
+      storage: props.movies
     };
     //bind functions here
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
   // lifecycle method(s)
   // This is where we put code we want to execute at a specific time in a component's lifecycle
@@ -36,12 +41,25 @@ class App extends React.Component {
 
   // methods
   // This is where we put functions to manipulate this classes state
-  handleSubmit(event) {
-    console.log("hello from submit");
-    event.preventDefault();
-    //this.setState({
-    //value: event.target.value
-    //});
+  handleSubmit(query) {
+    var movies = this.state.movies;
+
+    var filteredArr = movies.filter(movie => {
+      var title = movie.title.toLowerCase();
+      var item = query.toLowerCase();
+      return title.includes(item);
+    });
+
+    this.setState({
+      movies: filteredArr,
+      storage: this.props.movies
+    });
+  }
+
+  handleAdd(movieName) {
+    this.setState({
+      movies: [{ title: movieName }]
+    });
   }
 
   // render
@@ -51,7 +69,8 @@ class App extends React.Component {
     return (
       <div>
         <Search titles={this.state.value} handleSubmit={this.handleSubmit} />
-        <MovieList movies={this.props.movies} />
+        <Add handleAdd={this.handleAdd} />
+        <MovieList movies={this.state.movies} />
       </div>
     );
   }
